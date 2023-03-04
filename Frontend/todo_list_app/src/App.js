@@ -34,10 +34,16 @@ function App() {
           method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
         });
+        
+      const data = await response.json();
+      console.log(data);
+      alert("Task Added!");
 
       console.log(task_value);
-      updateList([...taskList, task_value]);
 
+      //Update the State value to re-render the UI
+      updateList([...taskList, task_value]);
+      taskInput.value ="";
     } catch (error) {
       alert(error.message);
       console.log(error.message)
@@ -50,7 +56,7 @@ function App() {
 
   return (
     <div className="App" >
-      <main className='container p-5'>
+      <main className='container p-5 mt-5'>
         <h1>To Do List App</h1>
         <form className='mt-5 mb-3' onSubmit={addTask}>
 

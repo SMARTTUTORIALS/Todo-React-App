@@ -8,12 +8,16 @@ let app = express();
 app.use(cors());
 
 let jsonParser = bodyParser.json();
-storage.init();
-storage.clear;
 
+async function initializeStorage(){
+    await storage.init();
+    await storage.clear();
+}
 
+initializeStorage();
 
 app.get("/tasklist", async (req, res) => {
+    console.log();
     console.log("fetching data..");
     res.send(await storage.values());
     console.log("data sent");
@@ -25,11 +29,16 @@ app.post("/addtask", jsonParser, async (req, res) => {
         const task_id = tasks.length + 1;
         console.log(req.body);
         const { task_value } = req.body;
-        await storage.setItem(task_id.toString(), task_value);
-        res.send('Task Added!');
+        if (task_value != null){
+            await storage.setItem(task_id.toString(), task_value);
+        res.json({success:true});
+
+        }else{
+            throw new Error("Empty / Null Value received");
+        }
+        
     } catch (error) {
-        let responseHtml = `<p>Bad Request!</p><p>${error.message}</p>`;
-        res.send(responseHtml);
+        res.json({success:false , message: error.message});
     }
 
 });

@@ -4,8 +4,9 @@
 
 
 .container  {
-  background-color: #e44d1f;
-  
+  background-color: #e4771ede;
+  box-shadow: 3px 3px 3px black;
+  border-radius: 0.5rem;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
